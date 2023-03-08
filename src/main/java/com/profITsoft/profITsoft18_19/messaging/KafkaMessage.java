@@ -11,11 +11,11 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 public class KafkaMessage {
     private String transactionId;
-    @NotEmpty
+    @NotEmpty(message = "This field can't be blank")
     private String subject;
-    @NotEmpty
+    @NotEmpty(message = "This field can't be blank")
     private String content;
     @Email
-    @NotEmpty
+    @NotEmpty(message = "This field can't be blank")
     private String email;
 }

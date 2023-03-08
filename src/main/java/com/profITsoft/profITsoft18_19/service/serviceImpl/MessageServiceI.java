@@ -29,7 +29,7 @@ public class MessageServiceI implements MessageService {
         this.messageRepository = messageRepository;
     }
 
-
+//
     @Override
     public void saveMessage(MessageDto messageDto) {
 
@@ -47,6 +47,27 @@ public class MessageServiceI implements MessageService {
                         .status(Status.RECEIVED)
                 .build());
         messageRepository.save(message);
+        sendingMessageLetter(message);
+    }
+
+    @Override
+    public void setMessageStatus(String messageID, MessageStatus messageStatus) {
+        Message updatedMessage = getMessageByID(messageID);
+        updatedMessage.setMassageStatus(messageStatus);
+        messageRepository.save(updatedMessage);
+    }
+
+    @Override
+    public Message getMessageByID(String id) {
+        return messageRepository.findMessageById(id);
+    }
+
+    @Override
+    public List<Message> getAllMailWithWrongStatus() {
+        return messageRepository.findAllByMassageStatus_Status(Status.SENDING_ERROR);
+    }
+
+    private void sendingMessageLetter(Message message){
         try {
             mailServiceI.sendSimpleMessage(message.getEmail(), message.getSubject(), message.getContent());
             setMessageStatus(message.getId(), MessageStatus.builder()
@@ -54,29 +75,15 @@ public class MessageServiceI implements MessageService {
                     .build());
         }catch (MailSandingError sandingError){
             setMessageStatus(message.getId(), MessageStatus.builder()
-                            .status(Status.SENDING_ERROR)
-                            .errorMassage(sandingError.getMessage())
-                            .build());
+                    .status(Status.SENDING_ERROR)
+                    .errorMassage(sandingError.getMessage())
+                    .build());
         }
-    }
-
-    @Override
-    public void setMessageStatus(String messageID, MessageStatus messageStatus) {
-
-    }
-
-    @Override
-    public Message getMessageByID(String id) {
-        return null;
-    }
-
-    @Override
-    public List<Message> getAllMailWithWrongStatus() {
-        return null;
     }
 
     @Scheduled(fixedRate = 300_000)
     private void checkAllWrongMails(){
-
+        List<Message> unsentLetters = getAllMailWithWrongStatus();
+        unsentLetters.forEach(this::sendingMessageLetter);
     }
 }

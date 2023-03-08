@@ -6,11 +6,11 @@ import lombok.Data;
 
 @Data
 public class MessageDto {
-    @NotEmpty
+    @NotEmpty(message = "This field can't be blank")
     private String subject;
-    @NotEmpty
+    @NotEmpty(message = "This field can't be blank")
     private String content;
     @Email
-    @NotEmpty
+    @NotEmpty(message = "This field can't be blank")
     private String email;
 }

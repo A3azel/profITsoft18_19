@@ -27,7 +27,7 @@ public class MessageController {
     }
 
 
-    @PostMapping("/message/confirmation")
+    @PostMapping("/confirmation")
     public void receivePayment(@RequestBody MessageDto messageDto, BindingResult bindingResult) {
         String errorMassage = errorValidator.checkErrors(bindingResult);
         if(!errorMassage.equals("")){
