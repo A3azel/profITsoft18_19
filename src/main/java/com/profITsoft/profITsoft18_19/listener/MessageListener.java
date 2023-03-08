@@ -1,6 +1,7 @@
 package com.profITsoft.profITsoft18_19.listener;
 
 import com.profITsoft.profITsoft18_19.dto.MessageDto;
+import com.profITsoft.profITsoft18_19.messaging.KafkaMessage;
 import com.profITsoft.profITsoft18_19.service.serviceInterface.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -17,7 +18,8 @@ public class MessageListener {
     }
 
     @KafkaListener(topics = "${kafka.topic.paymentReceived}")
-    public void paymentReceived(MessageDto message) {
+    public void paymentReceived(KafkaMessage kafkaMessage) {
+
         //orderService.processPaymentReceived(message);
     }
 
