@@ -6,7 +6,7 @@ import com.profITsoft.profITsoft18_19.entity.MessageStatus;
 import com.profITsoft.profITsoft18_19.entity.enums.Status;
 import com.profITsoft.profITsoft18_19.exception.MailSandingError;
 import com.profITsoft.profITsoft18_19.messaging.KafkaMessage;
-import com.profITsoft.profITsoft18_19.repository.MessageRepository;
+import com.profITsoft.profITsoft18_19.repository.MongoTestRepo;
 import com.profITsoft.profITsoft18_19.service.serviceInterface.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -21,10 +21,10 @@ import java.util.UUID;
 public class MessageServiceI implements MessageService {
 
     private final MailServiceI mailServiceI;
-    private final MessageRepository messageRepository;
+    private final MongoTestRepo messageRepository;
 
     @Autowired
-    public MessageServiceI(MailServiceI mailServiceI, MessageRepository messageRepository) {
+    public MessageServiceI(MailServiceI mailServiceI, MongoTestRepo messageRepository) {
         this.mailServiceI = mailServiceI;
         this.messageRepository = messageRepository;
     }
@@ -65,6 +65,11 @@ public class MessageServiceI implements MessageService {
     @Override
     public List<Message> getAllMailWithWrongStatus() {
         return messageRepository.findAllByMassageStatus_Status(Status.SENDING_ERROR);
+    }
+
+    @Override
+    public List<Message> allLettersWithEmailAndStatus(String email, Status status) {
+        return messageRepository.findMessagesByEmailAndMassageStatus_Status(email, status);
     }
 
     private void sendingMessageLetter(Message message){

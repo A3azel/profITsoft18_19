@@ -18,7 +18,7 @@ public class KafkaMessageServiceI implements KafkaMessageService {
     }
 
     @Override
-    public void sendMessage(String topic,MessageDto messageDto){
+    public void sendMessage(String topic, MessageDto messageDto){
         kafkaOperations.send(topic, createKafkaMessage(messageDto));
     }
 

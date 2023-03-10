@@ -27,8 +27,8 @@ public class MessageController {
     }
 
 
-    @PostMapping("/confirmation")
-    public void receivePayment(@RequestBody MessageDto messageDto, BindingResult bindingResult) {
+    @PostMapping("/send")
+    public void processingLetterInfo(@RequestBody MessageDto messageDto, BindingResult bindingResult) {
         String errorMassage = errorValidator.checkErrors(bindingResult);
         if(!errorMassage.equals("")){
             throw new EntityValidationException(errorMassage);

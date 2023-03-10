@@ -15,7 +15,7 @@ public class KafkaConfig {
     private String bootstrapAddress;
 
     @Value("${kafka.topic.paymentReceived}")
-    private String paymentReceivedTopic;
+    private String messageTopic;
 
     @Bean
     public KafkaAdmin kafkaAdmin() {
@@ -26,6 +26,6 @@ public class KafkaConfig {
 
     @Bean
     public NewTopic paymentReceivedTopic() {
-        return new NewTopic(paymentReceivedTopic, 2, (short) 1);
+        return new NewTopic(messageTopic, 2, (short) 1);
     }
 }

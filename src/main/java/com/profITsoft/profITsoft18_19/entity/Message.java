@@ -1,15 +1,11 @@
 package com.profITsoft.profITsoft18_19.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Getter
+
+/*@Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,5 +21,20 @@ public class Message {
     @Field(type = FieldType.Text)
     private String email;
     @Field(type = FieldType.Nested, includeInParent = true)
+    private MessageStatus massageStatus;
+}*/
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Document("KafkaTask")
+public class Message {
+    @Id
+    private String id;
+    private String subject;
+    private String content;
+    private String email;
     private MessageStatus massageStatus;
 }
